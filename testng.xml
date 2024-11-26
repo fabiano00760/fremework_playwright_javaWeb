@@ -1,0 +1,8 @@
+<suite name="Suite" parallel="tests" thread-count="4">
+    <test name="Test">
+        <classes>
+            <class name="org.FremeWork_Playwright.tests.LoginTest" />
+            <class name="org.FremeWork_Playwright.tests.CadastroTest" />
+        </classes>
+    </test>
+</suite>
