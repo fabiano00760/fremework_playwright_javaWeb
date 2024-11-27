@@ -17,23 +17,24 @@ public class CadastroPage {
     private String btnCreateAnAccount = "//button[contains(.,'Create an Account')]";
     private String loginSucesso = "(//div[contains(.,'Thank you for registering with Main Website Store.')])[6]";
 
+
     public CadastroPage(Page page) {
         this.page = page;
     }
     public void campoCreateAnAccount(){
         page.locator(campoCreateAnAccount).click();
-        page.waitForTimeout(5000);
+        page.waitForTimeout(2000);
     }
 
     private void preencherCampo(String campoLocator, String valor) {
         page.locator(campoLocator).fill(valor);
-        page.waitForTimeout(5000);
+        page.waitForTimeout(2000);
     }
 
 
     public void btnCreateAnAccount() {
         page.locator(btnCreateAnAccount).click();
-        page.waitForTimeout(5000);
+        page.waitForTimeout(2000);
     }
 
 

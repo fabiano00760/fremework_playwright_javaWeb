@@ -12,6 +12,7 @@ public class LoginPage {
     private String campoEmail = "//input[@id='email']";    // XPath para o campo de email
     private String campoSenha = "//input[@title='Password']"; // XPath para o campo de senha
     private String btnSingIn = "(//span[contains(.,'Sign In')])[1]";      // XPath para o botão de login
+    private String loginSucesso ="(//span[@class='logged-in'][contains(.,'Welcome, Fabiano Silva!')])[1]";// XPath para validar login com sucesso
 
     public LoginPage(Page page) {
         this.page = page;
@@ -20,7 +21,7 @@ public class LoginPage {
     // Método para clicar no link "Sign In"
     public void SingnIn(){
         page.locator(signIn).click();
-        page.waitForTimeout(5000);
+        page.waitForTimeout(2000);
     }
 
     // Método para preencher o email e senha usando as credenciais do JSON
@@ -33,7 +34,9 @@ public class LoginPage {
             page.locator(campoEmail).fill(credenciais.getEmail());
             page.locator(campoSenha).fill(credenciais.getSenha());
             page.locator(btnSingIn).click();
-            page.waitForTimeout(5000);  // Aguardar a navegação ou qualquer outro processo após o login
+            page.waitForTimeout(2000);
+            page.locator(loginSucesso).textContent();
+            page.waitForTimeout(2000);  // Aguardar a navegação ou qualquer outro processo após o login
         } else {
             System.out.println("Credenciais não encontradas no arquivo JSON.");
         }
@@ -56,7 +59,7 @@ public class LoginPage {
             page.locator(campoEmail).fill(credenciais.getSenha());
             page.locator(campoSenha).fill(credenciais.getEmail());
             page.locator(btnSingIn).click();
-            page.waitForTimeout(5000);  // Aguardar a navegação ou qualquer outro processo após o login
+            page.waitForTimeout(2000);  // Aguardar a navegação ou qualquer outro processo após o login
         } else {
             System.out.println("Credenciais não encontradas no arquivo JSON.");
         }
