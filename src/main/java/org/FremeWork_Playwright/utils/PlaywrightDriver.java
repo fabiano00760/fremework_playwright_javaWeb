@@ -9,7 +9,7 @@ public class PlaywrightDriver {
     private static Page page;
     private static Playwright playwright;
 
-    // Este método será chamado para iniciar o navegador
+    // Este metodo será chamado para iniciar o navegador
     public static void iniciarBrowser() {
         try {
             // Inicializa o Playwright

@@ -5,9 +5,7 @@ import org.FremeWork_Playwright.pageobjects.CadastroPage;
 import org.FremeWork_Playwright.utils.Evidencias;
 import org.FremeWork_Playwright.utils.PlaywrightDriver;
 import org.FremeWork_Playwright.utils.FakeEmailGenerator;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 
 import java.io.FileNotFoundException;
 
@@ -15,8 +13,8 @@ public class CadastroTest {
 
     private static Page page;
 
-    @BeforeClass
-    public static void setUp() {
+    @Before
+    public void setUp() {
         PlaywrightDriver.iniciarBrowser(); // Inicializa o browser
         page = PlaywrightDriver.getPage(); // Obtém a página inicializada
     }
@@ -42,10 +40,12 @@ public class CadastroTest {
         evidencias.capturarEvidencia(page, "02_Preenchimento_Usuario");
         cadastroPage.btnCreateAnAccount();
         cadastroPage.validarCadastroComSucesso();
+        evidencias.capturarEvidencia(page, "03_validar_Cadastro_Com_Sucesso");
+
     }
 
-    @AfterClass
-    public static void tearDown() {
+    @After
+    public void tearDown() {
         PlaywrightDriver.fecharBrowser(); // Fecha o navegador
     }
 }

@@ -44,6 +44,7 @@ public class CadastroPage {
         preencherCampo(campoEmail, emailEmail);
         preencherCampo(campoPassword, senha);
         preencherCampo(campoConfirmPassword, senha);
+        page.waitForTimeout(2000);
     }
 
 
