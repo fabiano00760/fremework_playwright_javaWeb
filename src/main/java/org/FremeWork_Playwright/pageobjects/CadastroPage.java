@@ -1,57 +1,43 @@
 package org.FremeWork_Playwright.pageobjects;
 
 import com.microsoft.playwright.Page;
-import org.junit.Assert;
 
-public class CadastroPage {
-
-    private Page page;
+public class CadastroPage extends BasePage {
 
     // XPaths dos elementos na página
-    private String campoCreateAnAccount = "(//a[contains(.,'Create an Account')])[1]";
-    private String campoFirstName = "//input[@id='firstname']";
-    private String campoLastName = "//input[@name='lastname']";
-    private String campoEmail = "//input[contains(@id,'email_address')]";
-    private String campoPassword = "//input[@id='password']";
-    private String campoConfirmPassword = "//input[@id='password-confirmation']";
-    private String btnCreateAnAccount = "//button[contains(.,'Create an Account')]";
-    private String loginSucesso = "(//div[contains(.,'Thank you for registering with Main Website Store.')])[6]";
-
+    private final String campoCreateAnAccount = "(//a[contains(.,'Create an Account')])[1]";
+    private final String campoFirstName = "//input[@id='firstname']";
+    private final String campoLastName = "//input[@name='lastname']";
+    private final String campoEmail = "//input[contains(@id,'email_address')]";
+    private final String campoPassword = "//input[@id='password']";
+    private final String campoConfirmPassword = "//input[@id='password-confirmation']";
+    private final String btnCreateAnAccount = "//button[contains(.,'Create an Account')]";
+    private final String loginSucesso = "(//div[contains(.,'Thank you for registering with Main Website Store.')])[6]";
 
     public CadastroPage(Page page) {
-        this.page = page;
-    }
-    public void campoCreateAnAccount(){
-        page.locator(campoCreateAnAccount).click();
-        page.waitForTimeout(2000);
+        super(page); // Passa o objeto Page para a BasePage
     }
 
-    private void preencherCampo(String campoLocator, String valor) {
-        page.locator(campoLocator).fill(valor);
-        page.waitForTimeout(2000);
+    public void acessarTelaCadastro() {
+        clicar(campoCreateAnAccount);
+        esperarVisibilidade(campoFirstName);
     }
 
-
-    public void btnCreateAnAccount() {
-        page.locator(btnCreateAnAccount).click();
-        page.waitForTimeout(2000);
+    public void preencherCadastro(String nome, String sobrenome, String email, String senha) {
+        preencher(campoFirstName, nome);
+        preencher(campoLastName, sobrenome);
+        preencher(campoEmail, email);
+        preencher(campoPassword, senha);
+        preencher(campoConfirmPassword, senha);
     }
 
-
-    public void preencherCadastro(String nome, String sobrenome, String emailEmail, String senha) {
-        preencherCampo(campoFirstName, nome);
-        preencherCampo(campoLastName, sobrenome);
-        preencherCampo(campoEmail, emailEmail);
-        preencherCampo(campoPassword, senha);
-        preencherCampo(campoConfirmPassword, senha);
-        page.waitForTimeout(2000);
+    public void confirmarCadastro() {
+        clicar(btnCreateAnAccount);
     }
-
-
 
     public void validarCadastroComSucesso() {
-        Assert.assertTrue("Thank you for registering with Main Website Store.", page.locator(loginSucesso).isVisible());
+        // Use o locator correto para procurar pelo texto de sucesso
+        page.locator("text='Thank you for registering with Main Website Store.'").waitFor();
+        System.out.println("Cadastro realizado com sucesso!");
     }
-
-
 }

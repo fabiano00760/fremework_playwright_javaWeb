@@ -3,51 +3,56 @@ package org.FremeWork_Playwright.tests;
 import com.microsoft.playwright.Page;
 import org.FremeWork_Playwright.pageobjects.LoginPage;
 import org.FremeWork_Playwright.utils.Evidencias;
-import org.FremeWork_Playwright.utils.PlaywrightDriver;
+import org.FremeWork_Playwright.Config.PlaywrightDriver;
+import org.FremeWork_Playwright.utils.FakeEmailGenerator;
 import org.junit.*;
 
 public class LoginTest {
+    String emailGerado = FakeEmailGenerator.gerarEmailFake();
+    String senhaGerada = FakeEmailGenerator.gerarSenhaFake();
 
     private static Page page;
+    private LoginPage loginPage;
+    private Evidencias evidencias;
 
-    // Este metodo será executado antes de cada teste, iniciando o navegador
     @Before
     public void setUp() {
-        PlaywrightDriver.iniciarBrowser(); // Inicializa o browser
-        page = PlaywrightDriver.getPage(); // Obtém a página inicializada
+        PlaywrightDriver.iniciarBrowser();
+        page = PlaywrightDriver.getPage();
+        loginPage = new LoginPage(page);
+        evidencias = new Evidencias("LoginTest");
     }
-
-    Evidencias evidencias = new Evidencias("Login");
 
     @Test
     public void testeLoginValido() {
+        // Acessar a tela de login
+        loginPage.acessarTelaLogin();
+        evidencias.capturarEvidencia(page, "01_Tela_Login");
 
-        LoginPage loginPage = new LoginPage(PlaywrightDriver.getPage());
-        loginPage.SingnIn();
-        evidencias.capturarEvidencia(page, "01_Acesso_Pagina_Inicial");
-        loginPage.preencherDadosLogin();
-        evidencias.capturarEvidencia(page, "02_Acesso_Pagina_Inicial");
-        loginPage.isLoginBemSucedido();
+        // Preencher dados de login
+        loginPage.preencherDadosLoginComCredenciais();
+        evidencias.capturarEvidencia(page, "02_Dados_Login");
 
+        // Validar login bem-sucedido
+        loginPage.validarLoginBemSucedido();
     }
 
     @Test
-    public void testeLoginInvalido(){
-        LoginPage loginPage = new LoginPage(PlaywrightDriver.getPage());
-        evidencias.capturarEvidencia(page, "01_Acesso_Pagina_Inicial");
+    public void testeLoginInvalido() {
 
-        loginPage.SingnIn();
-        evidencias.capturarEvidencia(page, "02_Singn_In");
+        // Acessar a tela de login
+        loginPage.acessarTelaLogin();
+        evidencias.capturarEvidencia(page, "01_Tela_Login");
 
-        loginPage.preencherDadosLogin1();
-        evidencias.capturarEvidencia(page, "03_preencher_DadosLogin");
+        // Preencher dados de login inválido
+        loginPage.preencherDadosLoginInvalido(senhaGerada,emailGerado);
+        evidencias.capturarEvidencia(page, "02_Dados_Login_Invalido");
 
-
+        // Validar que o login falhou
     }
 
-    // Este método será executado depois de cada teste, fechando o navegador
     @After
     public void tearDown() {
-        PlaywrightDriver.fecharBrowser(); // Fecha o navegador
+        PlaywrightDriver.fecharBrowser();
     }
 }

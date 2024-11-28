@@ -1,51 +1,52 @@
 package org.FremeWork_Playwright.tests;
 
 import com.microsoft.playwright.Page;
+import org.FremeWork_Playwright.pageobjects.BasePage;
 import org.FremeWork_Playwright.pageobjects.CadastroPage;
+import org.FremeWork_Playwright.pageobjects.PageFactory;
 import org.FremeWork_Playwright.utils.Evidencias;
-import org.FremeWork_Playwright.utils.PlaywrightDriver;
+import org.FremeWork_Playwright.Config.PlaywrightDriver;
 import org.FremeWork_Playwright.utils.FakeEmailGenerator;
 import org.junit.*;
-
-import java.io.FileNotFoundException;
 
 public class CadastroTest {
 
     private static Page page;
+    private static PageFactory pageFactory;
+    private Evidencias evidencias;
 
     @Before
     public void setUp() {
-        PlaywrightDriver.iniciarBrowser(); // Inicializa o browser
-        page = PlaywrightDriver.getPage(); // Obtém a página inicializada
+        PlaywrightDriver.iniciarBrowser();
+        page = PlaywrightDriver.getPage();
+        pageFactory = new PageFactory(page);
+        evidencias = new Evidencias("CadastroTest");
     }
 
     @Test
-    public void CadastroUser() throws FileNotFoundException {
-        Evidencias evidencias = new Evidencias("Teste_Login");
+    public void cadastroUser() {
+        CadastroPage cadastroPage = pageFactory.getCadastroPage();
 
-        // Gerar email e senha
-        String emailFake = FakeEmailGenerator.gerarEmailFake();
-        String senhaFake = FakeEmailGenerator.gerarSenhaFake();
-
-        // Salvar o email e senha gerados em um arquivo JSON
-        FakeEmailGenerator.salvarEmailESenhaEmArquivo(emailFake, senhaFake);
-
-        // A partir daqui, use o emailFake no cadastro
-        CadastroPage cadastroPage = new CadastroPage(page);
-
-        // Preencher o formulário de cadastro com os dados gerados
-        cadastroPage.campoCreateAnAccount();
-        evidencias.capturarEvidencia(page, "01_Acesso_Pagina_Inicial");
-        cadastroPage.preencherCadastro("Fabiano", "Silva", emailFake, senhaFake);
-        evidencias.capturarEvidencia(page, "02_Preenchimento_Usuario");
-        cadastroPage.btnCreateAnAccount();
+        // Gerar email e senha usando o FakeEmailGenerator
+        String emailGerado = FakeEmailGenerator.gerarEmailFake();
+        String senhaGerada = FakeEmailGenerator.gerarSenhaFake();
+        // Acessar a tela de cadastro
+        cadastroPage.acessarTelaCadastro();
+        evidencias.capturarEvidencia(page, "01_Tela_Cadastro");
+        // Preencher os campos de cadastro com o email e senha gerados
+        cadastroPage.preencherCadastro("Fabiano", "Silva", emailGerado, senhaGerada);
+        evidencias.capturarEvidencia(page, "02_Campos_Preenchidos");
+        // Confirmar cadastro
+        cadastroPage.confirmarCadastro();
+        evidencias.capturarEvidencia(page, "03_Cadastro_Confirmado");
+        // Validar sucesso no cadastro
         cadastroPage.validarCadastroComSucesso();
-        evidencias.capturarEvidencia(page, "03_validar_Cadastro_Com_Sucesso");
-
     }
+
+
 
     @After
     public void tearDown() {
-        PlaywrightDriver.fecharBrowser(); // Fecha o navegador
+        PlaywrightDriver.fecharBrowser();
     }
 }

@@ -2,67 +2,54 @@ package org.FremeWork_Playwright.pageobjects;
 
 import com.microsoft.playwright.Page;
 import org.FremeWork_Playwright.utils.CredenciaisUtils;
+import org.junit.Assert;
 
-public class LoginPage {
+public class LoginPage extends BasePage {
 
-    private Page page;
-
-    // XPath dos elementos na página
-    private String signIn = "(//a[contains(.,'Sign In')])[1]";  // XPath para o campo de usuário
-    private String campoEmail = "//input[@id='email']";    // XPath para o campo de email
-    private String campoSenha = "//input[@title='Password']"; // XPath para o campo de senha
-    private String btnSingIn = "(//span[contains(.,'Sign In')])[1]";      // XPath para o botão de login
-    private String loginSucesso ="(//span[@class='logged-in'][contains(.,'Welcome, Fabiano Silva!')])[1]";// XPath para validar login com sucesso
+    // XPaths dos elementos na página
+    private final String signIn = "(//a[contains(.,'Sign In')])[1]";
+    private final String campoEmail = "//input[@id='email']";
+    private final String campoSenha = "//input[@title='Password']";
+    private final String btnSingIn = "(//span[contains(.,'Sign In')])[1]";
+    private final String loginSucesso = "(//span[@class='logged-in'][contains(.,'Welcome, Fabiano Silva!')])[1]";
 
     public LoginPage(Page page) {
-        this.page = page;
+        super(page); // Passa o objeto Page para a BasePage
     }
 
-    // Método para clicar no link "Sign In"
-    public void SingnIn(){
-        page.locator(signIn).click();
-        page.waitForTimeout(2000);
+    public void acessarTelaLogin() {
+        clicar(signIn);
+        esperarVisibilidade(campoEmail);
     }
 
-    // Método para preencher o email e senha usando as credenciais do JSON
-    public void preencherDadosLogin() {
-        // Obter as credenciais salvas no arquivo JSON
+    public void preencherDadosLogin(String email, String senha) {
+        preencher(campoEmail, email);
+        preencher(campoSenha, senha);
+        clicar(btnSingIn);
+    }
+
+    public void preencherDadosLoginComCredenciais() {
+        // Aqui você pode utilizar um método utilitário, se necessário, para preencher com credenciais de um arquivo JSON
+        // Por exemplo, se você tiver uma classe CredenciaisUtils:
         CredenciaisUtils.EmailSenha credenciais = CredenciaisUtils.obterEmailESenha();
 
         if (credenciais != null) {
-            // Preencher os campos de email e senha com as credenciais
-            page.locator(campoEmail).fill(credenciais.getEmail());
-            page.locator(campoSenha).fill(credenciais.getSenha());
-            page.locator(btnSingIn).click();
-            page.waitForTimeout(2000);
-            page.locator(loginSucesso).textContent();
-            page.waitForTimeout(2000);  // Aguardar a navegação ou qualquer outro processo após o login
+            preencherDadosLogin(credenciais.getEmail(), credenciais.getSenha());
         } else {
-            System.out.println("Credenciais não encontradas no arquivo JSON.");
+            throw new IllegalStateException("Credenciais não encontradas no arquivo JSON.");
         }
+    }
+    public void preencherDadosLoginInvalido(String email, String senha){
+        preencher(campoEmail, email);
+        preencher(campoSenha, senha);
+        clicar(btnSingIn);
+    }
+
+    public void validarLoginBemSucedido() {
+        // Validação de sucesso no login
+        BasePage.esperarVisibilidade(loginSucesso);
+        Assert.assertTrue("Welcome, Fabiano Silva!", isVisivel(loginSucesso));
 
     }
 
-
-    // Método para verificar se o login foi realizado com sucesso, verificando a URL ou um elemento específico
-    public boolean isLoginBemSucedido() {
-        return page.url().contains("dashboard");  // Verifica se a URL contém "dashboard", indicando que o login foi bem-sucedido
-    }
-
-    // Método para preencher o email e senha usando as credenciais do JSON
-    public void preencherDadosLogin1() {
-        // Obter as credenciais salvas no arquivo JSON
-        CredenciaisUtils.EmailSenha credenciais = CredenciaisUtils.obterEmailESenha();
-
-        if (credenciais != null) {
-            // Preencher os campos de email e senha com as credenciais
-            page.locator(campoEmail).fill(credenciais.getSenha());
-            page.locator(campoSenha).fill(credenciais.getEmail());
-            page.locator(btnSingIn).click();
-            page.waitForTimeout(2000);  // Aguardar a navegação ou qualquer outro processo após o login
-        } else {
-            System.out.println("Credenciais não encontradas no arquivo JSON.");
-        }
-
-    }
 }
