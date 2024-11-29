@@ -34,7 +34,7 @@ bash
 Copiar código
 mvn install
 Instalar o Playwright:
-
+npm install playwright
 Embora o Playwright seja configurado como dependência no pom.xml, você precisa executar um comando para baixar os navegadores que o Playwright utiliza.
 
 Execute o seguinte comando:
