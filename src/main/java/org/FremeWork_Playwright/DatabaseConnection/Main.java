@@ -17,9 +17,9 @@ public class Main {
         // Atualizar o nome de um usuário
         // usuarioDAO.atualizarUsuario(1, "Fabiano Atualizado");
         //   usuarioDAO.listarUsuarios();
-        // usuarioDAO.inserirUsuario("jojo", "jojo@teste.com");
+     //    usuarioDAO.inserirUsuario("Fabiano Silva ", "FabianoSilva@teste.com");
         //  usuarioDAO.deletarUsuario(91);
-        usuarioDAO.deletarTodosUsuarios();
+        // usuarioDAO.deletarTodosUsuarios();
 
         // Listar novamente após a atualização
         System.out.println("Lista de usuários após atualização:");
