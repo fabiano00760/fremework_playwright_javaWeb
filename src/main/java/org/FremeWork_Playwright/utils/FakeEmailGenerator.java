@@ -1,5 +1,6 @@
 package org.FremeWork_Playwright.utils;
 
+import com.github.javafaker.Faker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -11,7 +12,6 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class FakeEmailGenerator {
 
@@ -19,7 +19,7 @@ public class FakeEmailGenerator {
     private static List<EmailSenha> emailsGerados = new ArrayList<>();
 
     public static void main(String[] args) {
-        // Gerar email e senha
+        // Gerar email e senha usando Faker
         String email = gerarEmailFake();
         String senha = gerarSenhaFake();
 
@@ -28,26 +28,30 @@ public class FakeEmailGenerator {
     }
 
     /**
-     * Gera um email fake único baseado em UUID.
+     * Gera um email fake utilizando a biblioteca Faker.
      *
      * @return um email aleatório.
      */
     public static String gerarEmailFake() {
-        // Gerar um UUID único para garantir um email único
-        String uuid = UUID.randomUUID().toString();
-        // Montar o email no formato <username>-<UUID>@example.com
-        return "username-" + uuid + "@example.com";
+        // Usando Faker para gerar um nome e combiná-lo com um domínio fictício
+        Faker faker = new Faker();
+        String nome = faker.name().firstName().toLowerCase();  // Nome fictício
+        String dominio = faker.internet().domainName();  // Domínio fictício
+
+        // Monta o email no formato nome@dominio
+        return nome + "@" + dominio;
     }
 
     /**
-     * Gera uma senha aleatória e simples.
-     * A senha gerada é "Senha@123" para fins de exemplo. Você pode personalizar conforme necessário.
+     * Gera uma senha aleatória utilizando a biblioteca Faker.
+     * A senha gerada tem uma combinação de letras, números e símbolos.
      *
      * @return uma senha aleatória.
      */
     public static String gerarSenhaFake() {
-        // Senha simples gerada com um formato fixo
-        return "Senha@123";
+        Faker faker = new Faker();
+        // Usando Faker para gerar uma senha aleatória com letras, números e símbolos
+        return faker.internet().password(8, 16, true, true);  // Senha de 8 a 16 caracteres
     }
 
     /**

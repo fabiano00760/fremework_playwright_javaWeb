@@ -35,7 +35,7 @@ public class CadastroTest {
         // Gerar nome, sobrenome, email e senha usando o Faker e FakeEmailGenerator
         String firstNameGerado = faker.name().firstName();
         String lastNameGerado = faker.name().lastName();
-        String emailGerado = FakeEmailGenerator.gerarEmailFake();
+        String emailGerado =FakeEmailGenerator.gerarEmailFake();
         String senhaGerada = FakeEmailGenerator.gerarSenhaFake();
 
         // Acessar a tela de cadastro
