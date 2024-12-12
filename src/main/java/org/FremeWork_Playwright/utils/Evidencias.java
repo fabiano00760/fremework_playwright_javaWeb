@@ -20,7 +20,7 @@ public class Evidencias {
     }
 
     /**
-     * Método para criar a pasta de evidências diária.
+     * Metodo para criar a pasta de evidências diária.
      * @param nomeTeste Nome do teste para identificar a subpasta dentro da pasta do dia.
      */
     private void criarPastaEvidencias(String nomeTeste) {
@@ -37,7 +37,7 @@ public class Evidencias {
     }
 
     /**
-     * Método para capturar uma evidência (screenshot) de uma etapa do teste.
+     * Metodo para capturar uma evidência (screenshot) de uma etapa do teste.
      * @param page Instância da página do Playwright.
      * @param nomeEtapa Nome ou descrição da etapa do teste.
      */
