@@ -1,8 +1,8 @@
 package org.FremeWork_Playwright.tests;
 
 import com.microsoft.playwright.Page;
-import org.FremeWork_Playwright.pageobjects.CadastroPage;
-import org.FremeWork_Playwright.pageobjects.PageFactory;
+import org.FremeWork_Playwright.page.CadastroPage;
+import org.FremeWork_Playwright.page.PageFactory;
 import org.FremeWork_Playwright.utils.Evidencias;
 import org.FremeWork_Playwright.Config.PlaywrightDriver;
 import org.FremeWork_Playwright.utils.FakeEmailGenerator;

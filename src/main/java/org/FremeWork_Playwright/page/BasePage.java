@@ -1,4 +1,4 @@
-package org.FremeWork_Playwright.pageobjects;
+package org.FremeWork_Playwright.page;
 
 import com.microsoft.playwright.Page;
 

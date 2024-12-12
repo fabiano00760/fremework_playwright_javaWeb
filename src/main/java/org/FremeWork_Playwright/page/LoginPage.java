@@ -1,4 +1,4 @@
-package org.FremeWork_Playwright.pageobjects;
+package org.FremeWork_Playwright.page;
 
 import com.microsoft.playwright.Page;
 import org.FremeWork_Playwright.utils.CredenciaisUtils;
@@ -29,7 +29,7 @@ public class LoginPage extends BasePage {
     }
 
     public void preencherDadosLoginComCredenciais() {
-        // Aqui você pode utilizar um método utilitário, se necessário, para preencher com credenciais de um arquivo JSON
+        // Aqui você pode utilizar um metodo utilitário, se necessário, para preencher com credenciais de um arquivo JSON
         // Por exemplo, se você tiver uma classe CredenciaisUtils:
         CredenciaisUtils.EmailSenha credenciais = CredenciaisUtils.obterEmailESenha();
 

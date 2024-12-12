@@ -3,12 +3,53 @@ package org.FremeWork_Playwright.DatabaseConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UsuarioDAO {
 
-    // Metodo para salvar o usuário na tabela 'cadastro'
+    // Método para criar o banco de dados 'Cadastro_db' se não existir
+    private static void criarBancoDeDados() {
+        String sqlCriarBanco = "CREATE DATABASE IF NOT EXISTS Cadastro_db";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            // Cria o banco de dados caso não exista
+            stmt.executeUpdate(sqlCriarBanco);
+            System.out.println("Banco de dados 'Cadastro_db' criado ou já existe.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para criar a tabela 'usuarios' caso não exista
+    private static void criarTabelaUsuarios() {
+        String sqlCriarTabela = "CREATE TABLE IF NOT EXISTS usuarios (" +
+                "id INT AUTO_INCREMENT PRIMARY KEY, " +
+                "FirstName VARCHAR(100), " +
+                "LastName VARCHAR(100), " +
+                "Email VARCHAR(100), " +
+                "Password VARCHAR(100))";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             Statement stmt = conn.createStatement()) {
+
+            // Cria a tabela de usuários caso não exista
+            stmt.executeUpdate(sqlCriarTabela);
+            System.out.println("Tabela 'usuarios' criada ou já existe.");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Método para salvar o usuário na tabela 'usuarios'
     public static void cadastroUser(String firstName, String lastName, String email, String password) {
-        // Corrigindo o nome da tabela para 'cadastro' dentro do banco 'Cadastro_db'
+        // Criar banco de dados e tabela se não existirem
+        criarBancoDeDados();
+        criarTabelaUsuarios();
+
         String sql = "INSERT INTO usuarios (FirstName, LastName, Email, Password) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
@@ -26,9 +67,9 @@ public class UsuarioDAO {
         }
     }
 
-    // Método para listar todos os usuários
+    // Metodo para listar todos os usuários
     public void listarUsuarios() {
-        String sql = "SELECT * FROM cadastro";  // Corrigido para 'cadastro'
+        String sql = "SELECT * FROM usuarios";  // Alterado para 'usuarios'
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -45,9 +86,9 @@ public class UsuarioDAO {
         }
     }
 
-    // Método para atualizar o nome de um usuário
+    // Metodo para atualizar o nome de um usuário
     public void atualizarUsuario(int id, String novoNome) {
-        String sql = "UPDATE cadastro SET FirstName = ? WHERE id = ?";  // Corrigido para 'cadastro'
+        String sql = "UPDATE usuarios SET FirstName = ? WHERE id = ?";  // Alterado para 'usuarios'
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -62,9 +103,9 @@ public class UsuarioDAO {
         }
     }
 
-    // Método para deletar um usuário pelo ID
+    // Metodo para deletar um usuário pelo ID
     public void deletarUsuario(int id) {
-        String sql = "DELETE FROM cadastro WHERE id = ?";  // Corrigido para 'cadastro'
+        String sql = "DELETE FROM usuarios WHERE id = ?";  // Alterado para 'usuarios'
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -82,9 +123,9 @@ public class UsuarioDAO {
         }
     }
 
-    // Método para deletar todos os usuários
+    // Metodo para deletar todos os usuários
     public void deletarTodosUsuarios() {
-        String sql = "DELETE FROM cadastro";  // Corrigido para 'cadastro'
+        String sql = "DELETE FROM usuarios";  // Alterado para 'usuarios'
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

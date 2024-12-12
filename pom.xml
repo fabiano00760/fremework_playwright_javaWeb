@@ -10,6 +10,13 @@
     <packaging>jar</packaging> <!-- Adicionando o tipo de empacotamento JAR -->
 
     <dependencies>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.18.24</version>  <!-- Verifique a versão mais recente -->
+                <scope>provided</scope>
+            </dependency>
+
         <!-- Playwright -->
         <dependency>
             <groupId>com.microsoft.playwright</groupId>
